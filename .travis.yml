@@ -2,3 +2,10 @@
  node_js: node
  services:
      - mongodb
+deploy:
+  provider: heroku
+  api_key:
+    secure:
+  app: chorely
+  on:
+    repo: MollyJeanB/ChorelyApp-api
