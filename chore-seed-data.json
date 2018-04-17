@@ -1,0 +1,15 @@
+{
+  "choreName": "Sweep Floors",
+  "pointValue": 2,
+  "timesPerWeek": 3
+}
+{
+  "choreName": "Wipe Counters",
+  "pointValue": 1,
+  "timesPerWeek": 7
+}
+{
+  "choreName": "Clean Bathroom",
+  "pointValue": 5,
+  "timesPerWeek": 1
+}
