@@ -1,5 +1,6 @@
 {
   "name": "chorely-api",
+  "repository": "https://github.com/MollyJeanB/ChorelyApp-api.git",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",

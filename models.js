@@ -25,7 +25,6 @@ choreSchema.methods.serialize = function() {
   }
 }
 
-
 memberSchema.methods.serialize = function() {
  return {
    id: this._id,
