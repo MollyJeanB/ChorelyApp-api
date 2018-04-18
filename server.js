@@ -3,7 +3,7 @@ const app = express();
 const cors = require('cors');
 const mongoose = require("mongoose")
 const { DATABASE_URL, PORT} = require("./config");
-const { Chore, Member } = require("./models")
+const { Chore, Member, Completion, Week } = require("./models")
 mongoose.Promise = global.Promise;
 app.use(express.json());
 
@@ -18,11 +18,15 @@ app.use(
 app.get('/', (req, res) => {
   const chores = Chore.find()
   const members = Member.find()
-  Promise.all([chores, members])
+  const completions = Completion.find()
+  const weeks = Week.find()
+  Promise.all([chores, members, completions, weeks])
   .then(result => {
     const resp = {
       chores: result[0],
-      members: result[1]
+      members: result[1],
+      completions: result[2],
+      weeks: result[3],
     }
     res.json(resp)
   }).catch(err => {
@@ -35,7 +39,9 @@ app.get('/', (req, res) => {
 app.get("/:id", (req, res) => {
   const chore = Chore.findById(req.params.id)
   const member = Member.findById(req.params.id)
-  Promise.all([chore, member])
+  const completion = Completion.findById(req.params.id)
+  const week = Week.findById(req.params.id)
+  Promise.all([chore, member, completion, week])
   .then(result => {
     res.json(result)
   })
@@ -48,7 +54,9 @@ app.get("/:id", (req, res) => {
 app.delete("/:id", (req, res) => {
   const chore = Chore.findByIdAndRemove(req.params.id)
   const member = Member.findByIdAndRemove(req.params.id)
-  Promise.all([chore, member])
+  const completion = Completion.findByIdAndRemove(req.params.id)
+  const week = Week.findByIdAndRemove(req.params.id)
+  Promise.all([chore, member, completion, week])
     .then(() => {
       res.status(204).json({ message: "success, my friend!" });
     })
