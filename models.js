@@ -16,6 +16,10 @@ const memberSchema = mongoose.Schema({
   totalPoints: {type: Number, required: true}
 })
 
+// const completionSchema = mongoose.Schema({
+//
+// })
+
 choreSchema.methods.serialize = function() {
   return {
     id: this._id,
