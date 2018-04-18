@@ -54,7 +54,7 @@ memberSchema.methods.serialize = function() {
 completionSchema.methods.serialize = function() {
   return {
     id: this._id,
-    choreId: this.ChoreId,
+    choreId: this.choreId,
     memberId: this.memberId,
     weekId: this.weekId,
     time: this.time

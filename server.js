@@ -23,10 +23,10 @@ app.get('/', (req, res) => {
   Promise.all([chores, members, completions, weeks])
   .then(result => {
     const resp = {
-      chores: result[0],
-      members: result[1],
-      completions: result[2],
-      weeks: result[3],
+      chores: result[0].map(chore => chore.serialize()),
+      members: result[1].map(member => member.serialize()),
+      completions: result[2].map(completion => completion.serialize()),
+      weeks: result[3].map(week => week.serialize())
     }
     res.json(resp)
   }).catch(err => {
@@ -43,7 +43,7 @@ app.get("/:id", (req, res) => {
   const week = Week.findById(req.params.id)
   Promise.all([chore, member, completion, week])
   .then(result => {
-    res.json(result)
+    res.json(result.serialize())
   })
   .catch(err => {
      console.error(err);
@@ -113,12 +113,32 @@ Member.create({
 
 })
 
+app.post("/completions", (req, res) => {
+  let requiredFields = ["choreId", "memberId"];
+  for (var i = 0; i < requiredFields.length; i++) {
+  let field = requiredFields[i];
+  if (!field) {
+    return res.status(400).json({ error: "missing field in request body" });
+  }
+}
+Completion.create({
+  choreId: req.body.choreId,
+  memberId: req.body.memberId,
+  weekId: req.body.weekId,
+})
+.then(newCompletion => {
+  res.status(201).json(newCompletion.serialize())
+})
+.catch(err => {
+  console.error(err);
+      res.status(500).json({ error: "ughhhhhhhh no no" });
+})
+
+})
+
 
 //does not work yet. Keep getting "ids don't match" error, or when I comment out that code I get a 201 status but the updated chore is null.
 app.put("/chores/:id", (req, res) => {
-  if (!(req.params.id === req.body.id)) {
-    return res.status(400).json({ error: "nah dog, ids don't match" });
-  }
   let requiredFields = ["choreName", "pointValue", "timesPerWeek"];
   for (var i = 0; i < requiredFields.length; i++) {
   let field = requiredFields[i];
