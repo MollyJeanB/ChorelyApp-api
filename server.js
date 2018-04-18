@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-
-const PORT = process.env.PORT || 8080;
+const mongoose = require("mongoose")
+const { DATABASE_URL, PORT} = require("./config");
+const { Chore, Member } = require("./models")
+mongoose.Promise = global.Promise;
 
 const {CLIENT_ORIGIN} = require('./config');
 
@@ -12,10 +14,61 @@ app.use(
     })
 );
 
-app.get('/api/*', (req, res) => {
-  res.json({ok: true});
+app.get('/*', (req, res) => {
+  const chores = Chore.find()
+  const members = Member.find()
+  Promise.all([chores, members])
+  .then(result => {
+    const resp = {
+      chores: result[0],
+      members: result[1]
+    }
+    res.json(resp)
+  }).catch(err => {
+    res.status(500).json({error: "nope not working"})
+  })
+
+
 });
 
-app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+let server;
 
-module.exports = {app};
+// connect to database, then start the server
+function runServer(databaseUrl, port = PORT) {
+  return new Promise((resolve, reject) => {
+    mongoose.connect(databaseUrl, err => {
+      if (err) {
+        return reject(err);
+      }
+      server = app
+        .listen(port, () => {
+          console.log(`Your app is listening on port ${port}`);
+          resolve();
+        })
+        .on("error", err => {
+          mongoose.disconnect();
+          reject(err);
+        });
+    });
+  });
+}
+
+function closeServer() {
+  return mongoose.disconnect().then(() => {
+    return new Promise((resolve, reject) => {
+      console.log("Closing server");
+      server.close(err => {
+        if (err) {
+          return reject(err);
+        }
+        resolve();
+      });
+    });
+  });
+}
+
+if (require.main === module) {
+  runServer(DATABASE_URL).catch(err => console.error(err));
+}
+
+module.exports = { runServer, app, closeServer };

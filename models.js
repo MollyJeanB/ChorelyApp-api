@@ -5,14 +5,14 @@ mongoose.Promise = global.Promise;
 
 const choreSchema = mongoose.Schema({
   choreName: {type: String, required: true},
-  pointValue: {type: Number, required: true}
+  pointValue: {type: Number, required: true},
   timesPerWeek: {type: Number, required: true}
 })
 
 const memberSchema = mongoose.Schema({
   name: {type: String, required: true},
-  color: {type: String, required: true}
-  weekPoints: {type: Number, required: true}
+  color: {type: String, required: true},
+  weekPoints: {type: Number, required: true},
   totalPoints: {type: Number, required: true}
 })
 
