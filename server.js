@@ -4,8 +4,15 @@ const cors = require('cors');
 const mongoose = require("mongoose")
 const { DATABASE_URL, PORT} = require("./config");
 const { Chore, Member, Completion, Week } = require("./models")
+const chartRouter = require("./chartRouter")
+const choreRouter = require("./choreRouter")
+
 mongoose.Promise = global.Promise;
+
 app.use(express.json());
+app.use("/", chartRouter)
+app.use("/chores", choreRouter)
+
 
 const {CLIENT_ORIGIN} = require('./config');
 
@@ -14,27 +21,6 @@ app.use(
         origin: CLIENT_ORIGIN
     })
 );
-
-app.get('/', (req, res) => {
-  const chores = Chore.find()
-  const members = Member.find()
-  const completions = Completion.find()
-  const weeks = Week.find()
-  Promise.all([chores, members, completions, weeks])
-  .then(result => {
-    const resp = {
-      chores: result[0].map(chore => chore.serialize()),
-      members: result[1].map(member => member.serialize()),
-      completions: result[2].map(completion => completion.serialize()),
-      weeks: result[3].map(week => week.serialize())
-    }
-    res.json(resp)
-  }).catch(err => {
-    res.status(500).json({error: "nope not working"})
-  })
-
-
-});
 
 app.get("/:id", (req, res) => {
   const chore = Chore.findById(req.params.id)
@@ -66,28 +52,7 @@ app.delete("/:id", (req, res) => {
     });
 });
 
-app.post("/chores", (req, res) => {
-  let requiredFields = ["choreName", "pointValue", "timesPerWeek"];
-  for (var i = 0; i < requiredFields.length; i++) {
-  let field = requiredFields[i];
-  if (!field) {
-    return res.status(400).json({ error: "missing field in request body" });
-  }
-}
-Chore.create({
-  choreName: req.body.choreName,
-  pointValue: req.body.pointValue,
-  timesPerWeek: req.body.timesPerWeek
-})
-.then(newChore => {
-  res.status(201).json(newChore.serialize())
-})
-.catch(err => {
-  console.error(err);
-      res.status(500).json({ error: "ughhhhhhhh no no" });
-})
 
-})
 
 app.post("/members", (req, res) => {
   let requiredFields = ["name", "color"];
@@ -136,30 +101,6 @@ Completion.create({
 
 })
 
-
-app.put("/chores/:id", (req, res) => {
-  let requiredFields = ["choreName", "pointValue", "timesPerWeek"];
-  for (var i = 0; i < requiredFields.length; i++) {
-  let field = requiredFields[i];
-  if (!field) {
-    return res.status(400).json({ error: "missing field in request body" });
-  }
-}
-const updatedChore = {
-  choreName: req.body.choreName,
-  pointValue: req.body.pointValue,
-  timesPerWeek: req.body.timesPerWeek
-}
-
-Chore.findByIdAndUpdate(req.body.id, updatedChore, {new: true})
-.then(updatedChore => {
-  res.status(201).json(updatedChore.serialize())
-})
-.catch(err => {
-      console.error(err);
-      res.status(500).json({ error: "ughhhhhhhh no no" });
-    });
-})
 
 app.put("/members/:id", (req, res) => {
 let requiredFields = ["name", "color"];
