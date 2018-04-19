@@ -7,6 +7,7 @@ const chartRouter = require("./chartRouter")
 const choreRouter = require("./choreRouter")
 const memberRouter = require("./memberRouter")
 const completionRouter = require("./completionRouter")
+const weekRouter = require("./weekRouter")
 
 mongoose.Promise = global.Promise;
 
@@ -16,6 +17,7 @@ app.use("/", chartRouter)
 app.use("/chores", choreRouter)
 app.use("/members", memberRouter)
 app.use("/completions", completionRouter)
+app.use("/weeks", weekRouter)
 
 
 const {CLIENT_ORIGIN} = require('./config');
