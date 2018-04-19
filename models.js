@@ -45,7 +45,7 @@ memberSchema.methods.serialize = function() {
    id: this._id,
    name: this.name,
    color: this.color,
-   weekPoints: this.hours,
+   weekPoints: this.weekPoints,
    totalPoints: this.totalPoints
 
  }

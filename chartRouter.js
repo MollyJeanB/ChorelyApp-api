@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
       completions: result[2].map(completion => completion.serialize()),
       weeks: result[3].map(week => week.serialize())
     }
-    res.json(resp)
+    res.status(200).json(resp)
   }).catch(err => {
     res.status(500).json({error: "nope not working"})
   });
