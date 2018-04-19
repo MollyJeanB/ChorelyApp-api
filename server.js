@@ -124,7 +124,7 @@ app.post("/completions", (req, res) => {
 Completion.create({
   choreId: req.body.choreId,
   memberId: req.body.memberId,
-  weekId: req.body.weekId,
+  weekId: req.body.weekId
 })
 .then(newCompletion => {
   res.status(201).json(newCompletion.serialize())
@@ -137,7 +137,6 @@ Completion.create({
 })
 
 
-//does not work yet. Keep getting "ids don't match" error, or when I comment out that code I get a 201 status but the updated chore is null.
 app.put("/chores/:id", (req, res) => {
   let requiredFields = ["choreName", "pointValue", "timesPerWeek"];
   for (var i = 0; i < requiredFields.length; i++) {
@@ -154,7 +153,54 @@ const updatedChore = {
 
 Chore.findByIdAndUpdate(req.body.id, updatedChore, {new: true})
 .then(updatedChore => {
-  res.status(201).json(updatedChore)
+  res.status(201).json(updatedChore.serialize())
+})
+.catch(err => {
+      console.error(err);
+      res.status(500).json({ error: "ughhhhhhhh no no" });
+    });
+})
+
+app.put("/members/:id", (req, res) => {
+let requiredFields = ["name", "color"];
+  for (var i = 0; i < requiredFields.length; i++) {
+  let field = requiredFields[i];
+  if (!field) {
+    return res.status(400).json({ error: "missing field in request body" });
+  }
+}
+const updatedMember = {
+  name: req.body.name,
+  color: req.body.color
+}
+
+Member.findByIdAndUpdate(req.body.id, updatedMember, {new: true})
+.then(updatedMember => {
+  res.status(201).json(updatedMember.serialize())
+})
+.catch(err => {
+      console.error(err);
+      res.status(500).json({ error: "ughhhhhhhh no no" });
+    });
+})
+
+app.put("/completions/:id", (req, res) => {
+  let requiredFields = ["choreId", "memberId"];
+  for (var i = 0; i < requiredFields.length; i++) {
+  let field = requiredFields[i];
+  if (!field) {
+    return res.status(400).json({ error: "missing field in request body" });
+  }
+}
+const updatedCompletion = {
+  choreId: req.body.choreId,
+  memberId: req.body.memberId,
+  weekId: req.body.weekId
+}
+
+Completion.findByIdAndUpdate(req.body.id, updatedCompletion, {new: true})
+.then(updatedCompletion => {
+  res.status(201).json(updatedCompletion.serialize())
 })
 .catch(err => {
       console.error(err);
