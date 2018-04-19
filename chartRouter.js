@@ -18,9 +18,7 @@ router.get('/', (req, res) => {
     res.json(resp)
   }).catch(err => {
     res.status(500).json({error: "nope not working"})
-  })
-
-
+  });
 });
 
 module.exports = router;

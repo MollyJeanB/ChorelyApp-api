@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Chore } = require("./models")
 
-router.get("chores/:id", (req, res) => {
+router.get("/:id", (req, res) => {
   Chore.findById(req.params.id)
   .then(result => {
     res.json(result.serialize())
@@ -13,7 +13,7 @@ router.get("chores/:id", (req, res) => {
    });
 })
 
-router.delete("chores/:id", (req, res) => {
+router.delete("/:id", (req, res) => {
   Chore.findByIdAndRemove(req.params.id)
     .then(() => {
       res.status(204).json({ message: "success, my friend!" });
@@ -24,7 +24,7 @@ router.delete("chores/:id", (req, res) => {
     });
 });
 
-router.post("/chores", (req, res) => {
+router.post("/", (req, res) => {
   let requiredFields = ["choreName", "pointValue", "timesPerWeek"];
   for (var i = 0; i < requiredFields.length; i++) {
   let field = requiredFields[i];
@@ -47,7 +47,7 @@ Chore.create({
 
 })
 
-router.put("/chores/:id", (req, res) => {
+router.put("/:id", (req, res) => {
   let requiredFields = ["choreName", "pointValue", "timesPerWeek"];
   for (var i = 0; i < requiredFields.length; i++) {
   let field = requiredFields[i];
@@ -71,4 +71,4 @@ Chore.findByIdAndUpdate(req.body.id, updatedChore, {new: true})
     });
 })
 
-module.exports = router;
+module.exports = router
