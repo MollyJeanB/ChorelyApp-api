@@ -26,10 +26,6 @@ const completionSchema = mongoose.Schema({
 const weekSchema = mongoose.Schema({
   weekOfYear: {type: Number}
 })
-//
-// const houseHoldSchema = mongoose.Schema({
-//   resetTime:
-// })
 
 choreSchema.methods.serialize = function() {
   return {
@@ -45,7 +41,7 @@ memberSchema.methods.serialize = function() {
    id: this._id,
    name: this.name,
    color: this.color,
-   weekPoints: this.hours,
+   weekPoints: this.weekPoints,
    totalPoints: this.totalPoints
 
  }

@@ -48,7 +48,7 @@ Member.create({
 });
 
 router.put("/:id", (req, res) => {
-let requiredFields = ["name", "color"];
+let requiredFields = ["name", "color", "weekPoints", "totalPoints"];
   for (var i = 0; i < requiredFields.length; i++) {
   let field = requiredFields[i];
   if (!field) {
@@ -57,7 +57,9 @@ let requiredFields = ["name", "color"];
 }
 const updatedMember = {
   name: req.body.name,
-  color: req.body.color
+  color: req.body.color,
+  weekPoints: req.body.weekPoints,
+  totalPoints: req.body.totalPoints
 }
 
 Member.findByIdAndUpdate(req.body.id, updatedMember, {new: true})
