@@ -5,7 +5,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "mocha --exit",
+    "test": "mocha --inspect",
     "start": "node --inspect server.js"
   },
   "author": "",

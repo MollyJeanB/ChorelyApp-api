@@ -1,3 +1,4 @@
+const {CLIENT_ORIGIN} = require('./config');
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -11,6 +12,12 @@ const weekRouter = require("./weekRouter")
 
 mongoose.Promise = global.Promise;
 
+app.use(
+    cors({
+        origin: CLIENT_ORIGIN
+    })
+);
+
 app.use(express.json());
 
 app.use("/", chartRouter)
@@ -19,14 +26,6 @@ app.use("/members", memberRouter)
 app.use("/completions", completionRouter)
 app.use("/weeks", weekRouter)
 
-
-const {CLIENT_ORIGIN} = require('./config');
-
-app.use(
-    cors({
-        origin: CLIENT_ORIGIN
-    })
-);
 
 let server;
 

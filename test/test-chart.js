@@ -45,7 +45,12 @@
       const members = Member.insertMany(memberData);
     const completions = []
     const weeks = []
-    const dataObject = {chores, members, completions, weeks}
+    const dataObject = {
+      chores: chores,
+      members: members,
+      completions: completions,
+      weeks: weeks
+    }
     return dataObject
   }
 
