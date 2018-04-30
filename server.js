@@ -4,12 +4,16 @@ const app = express()
 const bodyParser = require("body-parser")
 const cors = require("cors")
 const mongoose = require("mongoose")
+const localStrategy = require("./auth/index").localStrategy;
+const jwtStrategy = require("./auth/index").jwtStrategy;
 const { DATABASE_URL, PORT } = require("./config")
 const chartRouter = require("./chartRouter")
 const choreRouter = require("./choreRouter")
 const memberRouter = require("./memberRouter")
 const completionRouter = require("./completionRouter")
 const weekRouter = require("./weekRouter")
+const usersRouter = require("./users/router").router;
+const authRouter = require("./auth/router").router;
 
 mongoose.Promise = global.Promise
 
@@ -21,12 +25,30 @@ app.use(function(req, res, next) {
 })
 
 app.use(bodyParser.json())
+passport.use(localStrategy);
+passport.use(jwtStrategy);
 
+//routers for authentication and app data
+app.use("/auth", authRouter);
+app.use("/users", usersRouter);
 app.use("/", chartRouter)
 app.use("/chores", choreRouter)
 app.use("/members", memberRouter)
 app.use("/completions", completionRouter)
 app.use("/weeks", weekRouter)
+
+//errors if invalid enpoint accessed
+app.use("*", function(req, res) {
+  res.status(404).json({ message: "Not Found" });
+});
+
+const jwtAuth = passport.authenticate("jwt", { session: false });
+
+app.get("/protected", jwtAuth, (req, res) => {
+  return res.json({
+    data: "rosebud"
+  });
+});
 
 let server
 
