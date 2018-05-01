@@ -6,7 +6,7 @@
   "main": "server.js",
   "scripts": {
     "test": "mocha --inspect",
-    "start": "node --inspect server.js"
+    "start": "nodemon --inspect server.js"
   },
   "author": "",
   "license": "ISC",

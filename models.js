@@ -1,30 +1,30 @@
-"use strict";
+"use strict"
 
-const mongoose = require("mongoose");
-mongoose.Promise = global.Promise;
+const mongoose = require("mongoose")
+mongoose.Promise = global.Promise
 
 const choreSchema = mongoose.Schema({
-  choreName: {type: String, required: true},
-  pointValue: {type: Number, required: true},
-  timesPerWeek: {type: Number, required: true}
+  choreName: { type: String, required: true },
+  pointValue: { type: Number, required: true },
+  timesPerWeek: { type: Number, required: true }
 })
 
 const memberSchema = mongoose.Schema({
-  name: {type: String, required: true},
-  color: {type: String, required: true},
-  weekPoints: {type: Number, required: true},
-  totalPoints: {type: Number, required: true}
+  name: { type: String, required: true },
+  color: { type: String, required: true },
+  weekPoints: { type: Number, required: true },
+  totalPoints: { type: Number, required: true }
 })
 
 const completionSchema = mongoose.Schema({
-  choreId: {type: mongoose.Schema.Types.ObjectId, ref: "Chore"},
-  memberId: {type: mongoose.Schema.Types.ObjectId, ref: "Member"},
-  weekId: {type: mongoose.Schema.Types.ObjectId, ref: "Week"},
+  choreId: { type: mongoose.Schema.Types.ObjectId, ref: "Chore" },
+  memberId: { type: mongoose.Schema.Types.ObjectId, ref: "Member" },
+  weekId: { type: mongoose.Schema.Types.ObjectId, ref: "Week" },
   time: { type: Date, default: Date.now }
 })
 
 const weekSchema = mongoose.Schema({
-  weekOfYear: {type: Number}
+  weekOfYear: { type: Number }
 })
 
 choreSchema.methods.serialize = function() {
@@ -37,14 +37,13 @@ choreSchema.methods.serialize = function() {
 }
 
 memberSchema.methods.serialize = function() {
- return {
-   id: this._id,
-   name: this.name,
-   color: this.color,
-   weekPoints: this.weekPoints,
-   totalPoints: this.totalPoints
-
- }
+  return {
+    id: this._id,
+    name: this.name,
+    color: this.color,
+    weekPoints: this.weekPoints,
+    totalPoints: this.totalPoints
+  }
 }
 
 completionSchema.methods.serialize = function() {
@@ -64,9 +63,9 @@ weekSchema.methods.serialize = function() {
   }
 }
 
-const Chore = mongoose.model("Chore", choreSchema);
-const Member = mongoose.model("Member", memberSchema);
-const Completion = mongoose.model("Completion", completionSchema);
-const Week = mongoose.model("Week", weekSchema);
+const Chore = mongoose.model("Chore", choreSchema)
+const Member = mongoose.model("Member", memberSchema)
+const Completion = mongoose.model("Completion", completionSchema)
+const Week = mongoose.model("Week", weekSchema)
 
-module.exports = {Chore, Member, Completion, Week}
+module.exports = { Chore, Member, Completion, Week }

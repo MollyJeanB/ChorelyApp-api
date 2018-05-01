@@ -47,24 +47,25 @@ router.post("/", (req, res) => {
 })
 
 router.put("/:id", (req, res) => {
-  let requiredFields = ["choreId", "memberId"]
+  debugger
+  let requiredFields = ["memberId"]
   for (var i = 0; i < requiredFields.length; i++) {
     let field = requiredFields[i]
-    if (!field) {
+    if (!req.body[field]) {
       return res.status(400).json({ error: "missing field in request body" })
     }
   }
   const updatedCompletion = {
-    choreId: req.body.choreId,
-    memberId: req.body.memberId,
-    weekId: req.body.weekId
+    memberId: req.body.memberId
   }
 
-  Completion.findByIdAndUpdate(req.body.id, updatedCompletion, { new: true })
+  Completion.findByIdAndUpdate(req.params.id, updatedCompletion, { new: true })
     .then(updatedCompletion => {
+      debugger
       res.status(201).json(updatedCompletion.serialize())
     })
     .catch(err => {
+      debugger
       console.error(err)
       res.status(500).json({ error: "ughhhhhhhh no no" })
     })
