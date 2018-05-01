@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { CLIENT_ORIGIN } = require("./config")
 const express = require("express")
 const app = express()
@@ -6,6 +7,8 @@ const cors = require("cors")
 const mongoose = require("mongoose")
 const localStrategy = require("./auth/index").localStrategy;
 const jwtStrategy = require("./auth/index").jwtStrategy;
+const passport = require("passport");
+
 const { DATABASE_URL, PORT } = require("./config")
 const chartRouter = require("./chartRouter")
 const choreRouter = require("./choreRouter")

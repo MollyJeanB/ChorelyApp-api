@@ -1,6 +1,10 @@
 const express = require("express")
 const router = express.Router()
 const { Completion } = require("./models")
+const localStrategy = require("./auth/index").localStrategy;
+const jwtStrategy = require("./auth/index").jwtStrategy;
+const passport = require("passport");
+const jwtAuth = passport.authenticate("jwt", { session: false });
 
 router.get("/:id", (req, res) => {
   Completion.findById(req.params.id)
@@ -24,14 +28,14 @@ router.delete("/:id", (req, res) => {
     })
 })
 
-router.post("/", (req, res) => {
-  // let requiredFields = ["choreId", "memberId"]
-  // for (var i = 0; i < requiredFields.length; i++) {
-  //   let field = requiredFields[i]
-  //   if (!field) {
-  //     return res.status(400).json({ error: "missing field in request body" })
-  //   }
-  // }
+router.post("/", jwtAuth, (req, res) => {
+  let requiredFields = ["choreId", "memberId"]
+  for (var i = 0; i < requiredFields.length; i++) {
+    let field = requiredFields[i]
+    if (!field) {
+      return res.status(400).json({ error: "missing field in request body" })
+    }
+  }
   Completion.create({
     choreId: req.body.choreId,
     memberId: req.body.memberId,

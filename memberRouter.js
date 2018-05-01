@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const { Member } = require("./models")
+const localStrategy = require("./auth/index").localStrategy;
+const jwtStrategy = require("./auth/index").jwtStrategy;
+const passport = require("passport");
+const jwtAuth = passport.authenticate("jwt", { session: false });
 
 router.get("/:id", (req, res) => {
   Member.findById(req.params.id)
@@ -24,7 +28,7 @@ router.delete("/:id", (req, res) => {
     });
 });
 
-router.post("/", (req, res) => {
+router.post("/", jwtAuth, (req, res) => {
   let requiredFields = ["name", "color"];
   for (var i = 0; i < requiredFields.length; i++) {
   let field = requiredFields[i];
