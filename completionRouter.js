@@ -25,13 +25,6 @@ router.delete("/:id", (req, res) => {
 })
 
 router.post("/", (req, res) => {
-  // let requiredFields = ["choreId", "memberId"]
-  // for (var i = 0; i < requiredFields.length; i++) {
-  //   let field = requiredFields[i]
-  //   if (!field) {
-  //     return res.status(400).json({ error: "missing field in request body" })
-  //   }
-  // }
   Completion.create({
     choreId: req.body.choreId,
     memberId: req.body.memberId,
