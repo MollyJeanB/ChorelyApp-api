@@ -4,23 +4,27 @@ const mongoose = require("mongoose")
 mongoose.Promise = global.Promise
 
 const choreSchema = mongoose.Schema({
-  choreName: { type: String, required: true },
-  pointValue: { type: Number, required: true },
-  timesPerWeek: { type: Number, required: true }
+  choreName: {type: String, required: true},
+  pointValue: {type: Number, required: true},
+  timesPerWeek: {type: Number, required: true},
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
 })
 
 const memberSchema = mongoose.Schema({
-  name: { type: String, required: true },
-  color: { type: String, required: true },
-  weekPoints: { type: Number, required: true },
-  totalPoints: { type: Number, required: true }
+  name: {type: String, required: true},
+  color: {type: String, required: true},
+  weekPoints: {type: Number, required: true},
+  totalPoints: {type: Number, required: true},
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
 })
 
 const completionSchema = mongoose.Schema({
-  choreId: { type: mongoose.Schema.Types.ObjectId, ref: "Chore" },
-  memberId: { type: mongoose.Schema.Types.ObjectId, ref: "Member" },
-  weekId: { type: mongoose.Schema.Types.ObjectId, ref: "Week" },
-  time: { type: Date, default: Date.now }
+  choreId: {type: mongoose.Schema.Types.ObjectId, ref: "Chore"},
+  memberId: {type: mongoose.Schema.Types.ObjectId, ref: "Member"},
+  weekId: {type: mongoose.Schema.Types.ObjectId, ref: "Week"},
+  time: { type: Date, default: Date.now },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
+
 })
 
 const weekSchema = mongoose.Schema({
@@ -32,18 +36,21 @@ choreSchema.methods.serialize = function() {
     id: this._id,
     choreName: this.choreName,
     pointValue: this.pointValue,
-    timesPerWeek: this.timesPerWeek
+    timesPerWeek: this.timesPerWeek,
+    user: this.user
   }
 }
 
 memberSchema.methods.serialize = function() {
-  return {
-    id: this._id,
-    name: this.name,
-    color: this.color,
-    weekPoints: this.weekPoints,
-    totalPoints: this.totalPoints
-  }
+ return {
+   id: this._id,
+   name: this.name,
+   color: this.color,
+   weekPoints: this.weekPoints,
+   totalPoints: this.totalPoints,
+   user: this.user
+
+ }
 }
 
 completionSchema.methods.serialize = function() {
@@ -52,7 +59,8 @@ completionSchema.methods.serialize = function() {
     choreId: this.choreId,
     memberId: this.memberId,
     weekId: this.weekId,
-    time: this.time
+    time: this.time,
+    user: this.user
   }
 }
 

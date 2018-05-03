@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const { Chore } = require("./models")
+const localStrategy = require("./auth/index").localStrategy;
+const jwtStrategy = require("./auth/index").jwtStrategy;
+const passport = require("passport");
+const jwtAuth = passport.authenticate("jwt", { session: false });
 
 router.get("/:id", (req, res) => {
   Chore.findById(req.params.id)
@@ -24,7 +28,7 @@ router.delete("/:id", (req, res) => {
     });
 });
 
-router.post("/", (req, res) => {
+router.post("/", jwtAuth, (req, res) => {
   let requiredFields = ["choreName", "pointValue", "timesPerWeek"];
   for (var i = 0; i < requiredFields.length; i++) {
   let field = requiredFields[i];
@@ -35,7 +39,8 @@ router.post("/", (req, res) => {
 Chore.create({
   choreName: req.body.choreName,
   pointValue: req.body.pointValue,
-  timesPerWeek: req.body.timesPerWeek
+  timesPerWeek: req.body.timesPerWeek,
+  user: req.user.id
 })
 .then(newChore => {
   res.status(201).json(newChore.serialize())
