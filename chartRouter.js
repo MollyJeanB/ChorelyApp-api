@@ -7,7 +7,6 @@ const passport = require("passport");
 const jwtAuth = passport.authenticate("jwt", { session: false });
 
 router.get('/', jwtAuth, (req, res) => {
-  console.log(req.user.id)
   const chores = Chore.find({ user: req.user.id })
   const members = Member.find({ user: req.user.id })
   const completions = Completion.find({ user: req.user.id })
