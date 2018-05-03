@@ -1,3 +1,5 @@
+//this router is not yet in use. Will be part of the future weekly reset feature.
+
 const express = require('express');
 const router = express.Router();
 const { Week } = require("./models")
