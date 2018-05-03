@@ -39,7 +39,8 @@ router.post("/", jwtAuth, (req, res) => {
 Chore.create({
   choreName: req.body.choreName,
   pointValue: req.body.pointValue,
-  timesPerWeek: req.body.timesPerWeek
+  timesPerWeek: req.body.timesPerWeek,
+  user: req.user.id
 })
 .then(newChore => {
   res.status(201).json(newChore.serialize())

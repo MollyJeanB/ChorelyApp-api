@@ -7,12 +7,13 @@ const passport = require("passport");
 const jwtAuth = passport.authenticate("jwt", { session: false });
 
 router.get('/', jwtAuth, (req, res) => {
-  const chores = Chore.find()
-  const members = Member.find()
-  const completions = Completion.find()
+  console.log(req.user.id)
+  const chores = Chore.find({ user: req.user.id })
+  const members = Member.find({ user: req.user.id })
+  const completions = Completion.find({ user: req.user.id })
   const weeks = Week.find()
 //not sure how to do this--return all collections matching that user id
-  Promise.all({ user: req.user.id }, [chores, members, completions, weeks])
+  Promise.all([chores, members, completions, weeks])
   .then(result => {
     const resp = {
       chores: result[0].map(chore => chore.serialize()),

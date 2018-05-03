@@ -40,7 +40,8 @@ Member.create({
   name: req.body.name,
   color: req.body.color,
   weekPoints: 0,
-  totalPoints: 0
+  totalPoints: 0,
+  user: req.user.id
 })
 .then(newMember => {
   res.status(201).json(newMember.serialize())

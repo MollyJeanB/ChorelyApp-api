@@ -39,7 +39,8 @@ router.post("/", jwtAuth, (req, res) => {
   Completion.create({
     choreId: req.body.choreId,
     memberId: req.body.memberId,
-    weekId: req.body.weekId
+    weekId: req.body.weekId,
+    user: req.user.id
   })
     .then(newCompletion => {
       res.json(newCompletion.serialize())
