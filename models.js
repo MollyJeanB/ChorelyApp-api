@@ -18,6 +18,7 @@ const memberSchema = mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
 })
 
+//completions reference both the chore and member with which they are associated
 const completionSchema = mongoose.Schema({
   choreId: {type: mongoose.Schema.Types.ObjectId, ref: "Chore"},
   memberId: {type: mongoose.Schema.Types.ObjectId, ref: "Member"},

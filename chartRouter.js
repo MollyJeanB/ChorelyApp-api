@@ -6,6 +6,7 @@ const jwtStrategy = require("./auth/index").jwtStrategy;
 const passport = require("passport");
 const jwtAuth = passport.authenticate("jwt", { session: false });
 
+//GET endpoint for all app data 
 router.get('/', jwtAuth, (req, res) => {
   const chores = Chore.find({ user: req.user.id })
   const members = Member.find({ user: req.user.id })
