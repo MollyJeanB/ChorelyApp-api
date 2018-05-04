@@ -6,6 +6,8 @@ const jwtStrategy = require("./auth/index").jwtStrategy;
 const passport = require("passport");
 const jwtAuth = passport.authenticate("jwt", { session: false });
 
+//router for creating, updating, and deleting data in the completions collection
+
 router.get("/:id", (req, res) => {
   Completion.findById(req.params.id)
     .then(result => {

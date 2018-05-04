@@ -6,6 +6,8 @@ const jwtStrategy = require("./auth/index").jwtStrategy;
 const passport = require("passport");
 const jwtAuth = passport.authenticate("jwt", { session: false });
 
+//routers for deleting, updating, and creating data in the chores collection
+
 router.get("/:id", (req, res) => {
   Chore.findById(req.params.id)
   .then(result => {

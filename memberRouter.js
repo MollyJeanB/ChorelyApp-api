@@ -6,6 +6,8 @@ const jwtStrategy = require("./auth/index").jwtStrategy;
 const passport = require("passport");
 const jwtAuth = passport.authenticate("jwt", { session: false });
 
+//router for creating, updating, and deleting data in the members collection
+
 router.get("/:id", (req, res) => {
   Member.findById(req.params.id)
   .then(result => {
