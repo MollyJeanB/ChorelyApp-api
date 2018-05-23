@@ -5,12 +5,24 @@ const localStrategy = require("./auth/index").localStrategy;
 const jwtStrategy = require("./auth/index").jwtStrategy;
 const passport = require("passport");
 const jwtAuth = passport.authenticate("jwt", { session: false });
+const moment = require("moment")
 
 //GET endpoint for all app data associated with authenticated user
 router.get('/', jwtAuth, (req, res) => {
+
+  const today = moment().startOf("day")
+  const lastWeek = moment(today).subtract(7, "days")
+
+
   const chores = Chore.find({ user: req.user.id })
   const members = Member.find({ user: req.user.id })
-  const completions = Completion.find({ user: req.user.id })
+  const completions = Completion.find({ user: req.user.id,
+    time: {
+      $gte: lastWeek.toDate(),
+      $lt: today.toDate()
+    }
+
+   })
 
   Promise.all([chores, members, completions])
     .then(result => {

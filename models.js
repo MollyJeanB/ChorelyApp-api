@@ -68,7 +68,9 @@ completionSchema.methods.serialize = function() {
 weekSchema.methods.serialize = function() {
   return {
     id: this._id,
-    weekOfYear: this.weekOfYear
+    weekOfYear: this.weekOfYear,
+    user: this.user
+
   }
 }
 
