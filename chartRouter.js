@@ -10,18 +10,19 @@ const moment = require("moment")
 //GET endpoint for all app data associated with authenticated user
 router.get('/', jwtAuth, (req, res) => {
 
-  const today = moment().endOf("day")
-  const lastWeek = moment(today).subtract(7, "days")
+  let completionFind = {user: req.user.id}
+  if (req.query.lastWeek) {
+    const today = moment().endOf("day")
+    const lastWeek = moment(today).subtract(7, "days")
+    completionFind.time = {
+        $gte: lastWeek.toDate(),
+        $lt: today.toDate()
+    }
+  }
 
   const chores = Chore.find({ user: req.user.id })
   const members = Member.find({ user: req.user.id })
-  const completions = Completion.find({ user: req.user.id,
-    time: {
-      $gte: lastWeek.toDate(),
-      $lt: today.toDate()
-    }
-
-   })
+  const completions = Completion.find(completionFind)
 
   Promise.all([chores, members, completions])
     .then(result => {
