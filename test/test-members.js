@@ -48,8 +48,7 @@ function seedMemberData() {
     memberData.push({
       name: faker.name.firstName(),
       color: faker.commerce.color(),
-      weekPoints: faker.random.number(),
-      totalPoints: faker.random.number()
+      weekPoints: faker.random.number()
     });
   }
   return Member.insertMany(memberData);
@@ -81,8 +80,7 @@ describe("Member endpoints", function() {
         const newMember = {
           name: faker.name.firstName(),
           color: faker.commerce.color(),
-          weekPoints: 0,
-          totalPoints: 0
+          weekPoints: 0
         };
 
         return chai.request(app)
@@ -94,7 +92,7 @@ describe("Member endpoints", function() {
             res.should.be.json;
             res.body.should.be.a('object');
             res.body.should.include.keys(
-              "name", "color", "totalPoints", "weekPoints");
+              "name", "color", "weekPoints");
             res.body.name.should.equal(newMember.name);
             res.body.color.should.equal(newMember.color);
             res.body.id.should.not.be.null;
@@ -104,7 +102,6 @@ describe("Member endpoints", function() {
             member.name.should.equal(newMember.name);
             member.color.should.equal(newMember.color);
             member.weekPoints.should.equal(newMember.weekPoints);
-            member.totalPoints.should.equal(newMember.totalPoints);
           });
       });
     });
@@ -115,8 +112,7 @@ describe("Member endpoints", function() {
         const updateData = {
           name: "Beezlebub",
           color: "red",
-          weekPoints: 0,
-          totalPoints:75
+          weekPoints: 0
         };
 
         return Member
@@ -136,7 +132,6 @@ describe("Member endpoints", function() {
             member.name.should.equal(updateData.name);
             member.color.should.equal(updateData.color);
             member.weekPoints.should.equal(updateData.weekPoints);
-            member.totalPoints.should.equal(updateData.totalPoints);
           });
       });
     });

@@ -57,8 +57,7 @@ const decoded = jwt.decode(token);
         memberData.push({
           name: faker.name.firstName(),
           color: faker.commerce.color(),
-          weekPoints: faker.random.number(),
-          totalPoints: faker.random.number()
+          weekPoints: faker.random.number()
         });
       }
       const members = Member.insertMany(memberData);

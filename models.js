@@ -14,7 +14,6 @@ const memberSchema = mongoose.Schema({
   name: {type: String, required: true},
   color: {type: String, required: true},
   weekPoints: {type: Number, required: true},
-  totalPoints: {type: Number, required: true},
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
 })
 
@@ -22,14 +21,9 @@ const memberSchema = mongoose.Schema({
 const completionSchema = mongoose.Schema({
   choreId: {type: mongoose.Schema.Types.ObjectId, ref: "Chore"},
   memberId: {type: mongoose.Schema.Types.ObjectId, ref: "Member"},
-  weekId: {type: mongoose.Schema.Types.ObjectId, ref: "Week"},
   time: { type: Date, default: Date.now },
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
 
-})
-
-const weekSchema = mongoose.Schema({
-  weekOfYear: { type: Number }
 })
 
 choreSchema.methods.serialize = function() {
@@ -48,7 +42,6 @@ memberSchema.methods.serialize = function() {
    name: this.name,
    color: this.color,
    weekPoints: this.weekPoints,
-   totalPoints: this.totalPoints,
    user: this.user
 
  }
@@ -59,24 +52,14 @@ completionSchema.methods.serialize = function() {
     id: this._id,
     choreId: this.choreId,
     memberId: this.memberId,
-    weekId: this.weekId,
     time: this.time,
     user: this.user
   }
 }
 
-weekSchema.methods.serialize = function() {
-  return {
-    id: this._id,
-    weekOfYear: this.weekOfYear,
-    user: this.user
-
-  }
-}
 
 const Chore = mongoose.model("Chore", choreSchema)
 const Member = mongoose.model("Member", memberSchema)
 const Completion = mongoose.model("Completion", completionSchema)
-const Week = mongoose.model("Week", weekSchema)
 
-module.exports = { Chore, Member, Completion, Week }
+module.exports = { Chore, Member, Completion }

@@ -1,18 +1,15 @@
 {
   "name": "Mel",
   "color": "orange",
-  "weekPoints": 0,
-  "totalPoints": 0
+  "weekPoints": 0
 }
 {
   "name": "Molly",
   "color": "brightBlue",
-  "weekPoints": 0,
-  "totalPoints": 0
+  "weekPoints": 0
 }
 {
   "name": "Steve",
   "color": "purple",
-  "weekPoints": 0,
-  "totalPoints": 0
+  "weekPoints": 0
 }

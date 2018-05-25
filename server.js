@@ -14,7 +14,6 @@ const chartRouter = require("./chartRouter")
 const choreRouter = require("./choreRouter")
 const memberRouter = require("./memberRouter")
 const completionRouter = require("./completionRouter")
-const weekRouter = require("./weekRouter")
 const usersRouter = require("./users/router").router;
 const authRouter = require("./auth/router").router;
 
@@ -38,7 +37,6 @@ app.use("/", chartRouter)
 app.use("/chores", choreRouter)
 app.use("/members", memberRouter)
 app.use("/completions", completionRouter)
-app.use("/weeks", weekRouter)
 
 //errors if invalid enpoint accessed
 app.use("*", function(req, res) {
