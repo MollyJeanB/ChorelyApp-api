@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Member } = require("./models")
+const { Member, Completion } = require("./models")
 const localStrategy = require("./auth/index").localStrategy;
 const jwtStrategy = require("./auth/index").jwtStrategy;
 const passport = require("passport");
@@ -22,6 +22,12 @@ router.get("/:id", (req, res) => {
 router.delete("/:id", (req, res) => {
   Member.findByIdAndRemove(req.params.id)
     .then(() => {
+      Completion.remove({memberId: req.params.id}).then(() => {
+        res.status(204).json({ message: "success, my friend!" });
+      })
+      .catch(err => {
+        console.error(err)
+      })
       res.status(204).json({ message: "success, my friend!" });
     })
     .catch(err => {
@@ -76,7 +82,5 @@ Member.findByIdAndUpdate(req.body.id, updatedMember, {new: true})
       res.status(500).json({ error: "ughhhhhhhh no no" });
     });
 });
-
-
 
 module.exports = router
